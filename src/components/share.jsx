@@ -56,6 +56,11 @@ const LinkShareButton = styled(Button)`
     color: var(--title-color) !important;
   }
 `;
+
+/**
+ * @author taekwon
+ * @returns 
+ */
 const Share = () => {
   const createKakaoButton = () => {
     // kakao sdk script이 정상적으로 불러와졌으면 window.Kakao로 접근이 가능합니다
@@ -72,8 +77,8 @@ const Share = () => {
         objectType: "feed",
         container: "#sendKakao",
         content: {
-          title: `${GROOM_NAME}❤${BRIDE_NAME} 결혼식에 초대합니다`,
-          description: "아래의 '청첩장 열기' 버튼을 눌러 읽어주세요🤵👰",
+          title: `${GROOM_NAME}❤${BRIDE_NAME} 결혼 소식`,
+          description: "아래의 '소식장 열기' 버튼을 눌러 읽어주세요🤵👰",
           imageUrl: KAKAOTALK_SHARE_IMAGE,
           link: {
             mobileWebUrl: window.location.href,
@@ -94,7 +99,7 @@ const Share = () => {
 
       setTimeout(() => {
         document.getElementById("sendKakao")?.click();
-        message.success("카카오톡으로 청첩장을 공유합니다!");
+        message.success("카카오톡으로 소식장을 공유합니다!");
       }, 100);
     }
   };
@@ -106,7 +111,7 @@ const Share = () => {
         plain
         style={{ marginTop: 0, marginBottom: 32 }}
       >
-        <Title>청첩장 공유하기</Title>
+        <Title>결혼 소식장 공유하기</Title>
       </Divider>
       <KakaoTalkShareButton
         style={{ margin: 0 }}
@@ -122,9 +127,9 @@ const Share = () => {
           style={{ margin: 0 }}
           icon={<LinkOutlined />}
           size="large"
-          onClick={() => message.success("청첩장 링크가 복사되었습니다.")}
+          onClick={() => message.success("링크가 복사되었습니다.")}
         >
-          링크로 공유하기
+          링크 복사하기
         </LinkShareButton>
       </CopyToClipboard>
     </Wrapper>
