@@ -17,6 +17,7 @@ import Song from "../assets/song.mp3";
 
 import AOS from "aos";
 import "aos/dist/aos.css";
+import Guestbook from "../components/guestbook";
 
 // markup
 const { Footer } = Layout;
@@ -55,6 +56,7 @@ const IndexPage = () => {
       {/* <Location /> */}
       {/* <Quote /> */}
       {/* <CongratulatoryMoney /> */}
+      <Guestbook />
       <Share />
       {/* <Footer
         style={{
