@@ -9,18 +9,18 @@ import Title from "../components/title";
 import "../styles/index.css";
 
 import GroovePaper from "../assets/GroovePaper.png";
-import Location from "../components/location";
-import CongratulatoryMoney from "../components/congratulatoryMoney";
 import Share from "../components/share";
-import Quote from "../components/quote";
 import Song from "../assets/song.mp3";
+// import Location from "../components/location";
+// import CongratulatoryMoney from "../components/congratulatoryMoney";
+// import Quote from "../components/quote";
 
 import AOS from "aos";
 import "aos/dist/aos.css";
 import Guestbook from "../components/guestbook";
 
 // markup
-const { Footer } = Layout;
+// const { Footer } = Layout;
 
 const Wrapper = styled.div`
   background: #efebe9;
@@ -48,7 +48,8 @@ const IndexPage = () => {
   return (
     <Wrapper>
       <audio autoPlay loop>
-        <source src={Song} />
+        {/* <source src={Song} /> */}
+        <track kind="captions" src={Song} srcLang="en" label="English" />
       </audio>
       <Title />
       <Greeting />

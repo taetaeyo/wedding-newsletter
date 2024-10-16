@@ -1,0 +1,31 @@
+{
+  "guestbookEntries": [
+    {
+      "name": "테스트입니다",
+      "message": "내용122dddd",
+      "password": "123",
+      "date": "2024. 10. 16. 오전 10:49:10",
+      "id": "dbdc"
+    },
+    {
+      "id": "00df",
+      "name": "좋은데?",
+      "message": "진짜 좋은데?",
+      "date": "2024. 10. 16. 오전 9:51:14"
+    },
+    {
+      "id": "c982",
+      "name": "제목test",
+      "message": "내용test",
+      "password": "1234",
+      "date": "2024. 10. 16. 오전 10:33:38"
+    },
+    {
+      "id": "7044",
+      "name": "TTT",
+      "message": "AAA",
+      "password": "1234",
+      "date": "2024. 10. 16. 오전 10:42:36"
+    }
+  ]
+}
