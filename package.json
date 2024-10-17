@@ -20,10 +20,10 @@
     "aos": "^2.3.4",
     "babel-plugin-lodash": "^3.3.4",
     "babel-plugin-styled-components": "^2.0.7",
-    "gatsby": "^4.0.0",  // Gatsby 최신 버전으로 업데이트
-    "gatsby-link": "^4.0.0",  // 누락된 패키지 추가
-    "gatsby-react-router-scroll": "^4.0.0",  // 누락된 패키지 추가
-    "gatsby-plugin-styled-components": "^5.0.0",  // Gatsby와 호환되는 최신 버전으로 업데이트
+    "gatsby": "^4.0.0",
+    "gatsby-link": "^4.0.0",
+    "gatsby-react-router-scroll": "^4.0.0",
+    "gatsby-plugin-styled-components": "^5.0.0",
     "react": "^17.0.1",
     "react-copy-to-clipboard": "^5.1.0",
     "react-dom": "^17.0.1",
