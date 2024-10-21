@@ -115,7 +115,7 @@ const Share = () => {
         plain
         style={{ marginTop: 0, marginBottom: 32 }}
       >
-        <Title>결혼 소식장 공유하기</Title>
+        <Title>공유하기</Title>
       </Divider>
       <KakaoTalkShareButton
         style={{ margin: 0 }}

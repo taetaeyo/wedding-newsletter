@@ -19,7 +19,7 @@ https://wedding-templete.netlify.app/
 1. `$ cd WEDDING_INVITATION` - 해당 프로젝트 폴더로 이동
 2. `$ npm install` - 디펜던시 설치
 3. `$ npm start` - 로컬로 실행
-
+4. `json-server --watch ./db.json --port 3000` - json-server 실행(방명록)
 ## 🔧 Netlify로 만들기
 
 Netlify로 만드신다면 아래 글을 참고하세요 🕵🏻‍♂️
