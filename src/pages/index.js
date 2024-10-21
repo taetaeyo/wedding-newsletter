@@ -23,9 +23,9 @@ import Guestbook from "../components/guestbook";
 // const { Footer } = Layout;
 
 const Wrapper = styled.div`
-  background: #efebe9;
-  background-image: url(${GroovePaper});
-  width: 100%;
+  // background: #efebe9;
+  // background-image: url(${GroovePaper});
+  // width: 100%;
 `;
 
 const IndexPage = () => {
