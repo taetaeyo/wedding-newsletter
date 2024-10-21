@@ -3,12 +3,12 @@ import ImageGallery from "react-image-gallery";
 import { Divider } from "antd";
 import styled from "styled-components";
 
-import GalleryPhoto1 from "../assets/Gallery_Photo_1.webp";
-import GalleryPhoto2 from "../assets/Gallery_Photo_2.webp";
-import GalleryPhoto3 from "../assets/Gallery_Photo_3.webp";
-import GalleryPhoto4 from "../assets/Gallery_Photo_4.webp";
-import GalleryPhoto5 from "../assets/Gallery_Photo_5.webp";
-import GalleryPhoto6 from "../assets/Gallery_Photo_6.webp";
+import GalleryPhoto1 from "../assets/wedding/GalleryPhoto1.jpg";
+import GalleryPhoto2 from "../assets/wedding/GalleryPhoto2.jpg";
+import GalleryPhoto3 from "../assets/wedding/GalleryPhoto3.jpg";
+import GalleryPhoto4 from "../assets/wedding/GalleryPhoto4.jpg";
+import GalleryPhoto5 from "../assets/wedding/GalleryPhoto5.jpg";
+import GalleryPhoto6 from "../assets/wedding/GalleryPhoto6.jpg";
 
 const Wrapper = styled.div`
   padding-top: 42px;
