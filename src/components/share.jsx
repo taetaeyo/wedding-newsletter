@@ -26,34 +26,44 @@ const Title = styled.span`
   margin-bottom: 0;
 `;
 
-const KakaoTalkShareButton = styled(Button)`
-  background: #fee500;
-  border-color: #fee500;
-  color: #181600;
-  width: 100%;
+const RoundedButton = styled(Button)`
+  border-radius: 50px;
+  font-size: 1rem;
+  font-weight: bold;
+  width: 80%;
+  margin: 10px auto;
+  transition: all 0.3s ease-in-out;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+
   &:hover {
-    background-color: #fcf07e !important;
-    border-color: #fcf07e !important;
-    color: #17160b !important;
-  }
-  &:focus {
-    background-color: #fcf07e !important;
-    border-color: #fcf07e !important;
-    color: #17160b !important;
+    transform: scale(1.05);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
   }
 `;
 
-const LinkShareButton = styled(Button)`
-  background-color: rgba(217, 125, 131, 0.2);
-  border-color: rgba(217, 125, 131, 0.2) !important;
-  color: var(--title-color) !important;
-  font-weight: 400 !important;
-  align-items: center;
-  width: 100%;
+const KakaoTalkShareButton = styled(RoundedButton)`
+  background: #ffe066;
+  border-color: #ffe066;
+  color: #181600;
+
   &:hover {
-    background-color: rgb(217 125 131 / 48%) !important;
-    border-color: rgb(217 125 131 / 48%) !important;
-    color: var(--title-color) !important;
+    background-color: #ffd54f !important;
+    border-color: #ffd54f !important;
+  }
+  &:focus {
+    background-color: #ffd54f !important;
+    border-color: #ffd54f !important;
+  }
+`;
+
+const LinkShareButton = styled(RoundedButton)`
+  background-color: rgba(255, 153, 204, 0.3);
+  border-color: rgba(255, 153, 204, 0.3) !important;
+  color: var(--title-color) !important;
+
+  &:hover {
+    background-color: rgba(255, 153, 204, 0.5) !important;
+    border-color: rgba(255, 153, 204, 0.5) !important;
   }
 `;
 
@@ -113,26 +123,21 @@ const Share = () => {
       <Divider
         data-aos="fade-up"
         plain
-        style={{ marginTop: 0, marginBottom: 32 }}
-      >
+        style={{ marginTop: 0, marginBottom: 32 }}>
         <Title>공유하기</Title>
       </Divider>
       <KakaoTalkShareButton
-        style={{ margin: 0 }}
-        icon={<MessageFilled />}
+        icon={<MessageFilled style={{ fontSize: "1.5rem" }} />}
         id="sendKakao"
         size="large"
-        onClick={createKakaoButton}
-      >
+        onClick={createKakaoButton}>
         카카오톡으로 공유하기
       </KakaoTalkShareButton>
       <CopyToClipboard text={WEDDING_INVITATION_URL}>
         <LinkShareButton
-          style={{ margin: 0 }}
-          icon={<LinkOutlined />}
+          icon={<LinkOutlined style={{ fontSize: "1.5rem" }} />}
           size="large"
-          onClick={() => message.success("링크가 복사되었습니다.")}
-        >
+          onClick={() => message.success("링크가 복사되었습니다.")}>
           링크 복사하기
         </LinkShareButton>
       </CopyToClipboard>
