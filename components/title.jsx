@@ -1,11 +1,8 @@
 import React from "react";
 import styled from "styled-components";
-import {
-  WEDDING_DATE,
-  WEDDING_LOCATION,
-  GROOM_NAME,
-  BRIDE_NAME,
-} from "../config.js";
+import { WEDDING_DATE, GROOM_NAME, BRIDE_NAME } from "../config.js";
+
+const MainImage = "/assets/wedding/yellowFlower.jpg";
 
 const Layout = styled.div`
   width: 70%;
@@ -25,8 +22,15 @@ const TitleWrapper = styled.div`
   -o-animation: fadein 3s; /* Opera */
 `;
 
-const VideoBackground = styled.video`
+const TitleImage = styled.div`
+  background-image: url(${MainImage});
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center top;
   width: 100%;
+  height: 100vh;
+  transform: scale(${(props) => props.scale});
+  transition: transform 0.3s ease;
 `;
 
 const WeddingInvitation = styled.p`
@@ -47,23 +51,19 @@ const Schedule = styled.p`
   opacity: 0.65;
   margin-bottom: 24px;
 `;
+
 const Title = () => {
   return (
     <Layout>
       <TitleWrapper>
         <WeddingInvitation>WEDDING LETTER</WeddingInvitation>
         <GroomBride>
-          {GROOM_NAME} &#38; {BRIDE_NAME}
+          {/* {GROOM_NAME} &#38; {BRIDE_NAME} */}
+          {GROOM_NAME} ♥ {BRIDE_NAME}
         </GroomBride>
-        <Schedule>
-          {WEDDING_DATE}
-          <br />
-          {WEDDING_LOCATION}
-        </Schedule>
+        <Schedule>{WEDDING_DATE}</Schedule>
       </TitleWrapper>
-      <VideoBackground autoPlay loop muted playsInline>
-        <source src="/assets/BackgroundVideo.mp4" type="video/mp4" />
-      </VideoBackground>
+      <TitleImage image={MainImage} />
     </Layout>
   );
 };

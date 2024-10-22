@@ -9,7 +9,8 @@ import {
   BRIDE_FATHER_NAME,
   BRIDE_MOTHER_NAME,
 } from "../config";
-import Flower from "../public/assets/flower1.png";
+
+const Flower = "/assets/flower1.png";
 
 const Wrapper = styled.div`
   padding-top: 42px;
@@ -77,7 +78,7 @@ const Greeting = () => {
       <GroomBride data-aos="fade-up">
         {GROOM_FATHER_NAME} · {GROOM_MOTHER_NAME}의 아들 {GROOM_NAME}
         <br />
-        {BRIDE_FATHER_NAME} · {BRIDE_MOTHER_NAME}의 딸 {BRIDE_NAME}
+        {BRIDE_FATHER_NAME} · {BRIDE_MOTHER_NAME}의 &nbsp;딸&nbsp; {BRIDE_NAME}
       </GroomBride>
     </Wrapper>
   );

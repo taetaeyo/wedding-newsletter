@@ -4,7 +4,6 @@ import Gallery from "../components/gallery";
 import Greeting from "../components/greeting";
 import Title from "../components/title";
 
-import GroovePaper from "../public/assets/GroovePaper.png";
 import Share from "../components/share";
 // import Location from "../components/location";
 // import CongratulatoryMoney from "../components/congratulatoryMoney";
@@ -14,10 +13,12 @@ import AOS from "aos";
 import "aos/dist/aos.css";
 import Guestbook from "../components/guestbook";
 
+const GroovePaper = "/assets/GroovePaper.png";
+
 const Wrapper = styled.div`
-  background: #efebe9;
-  background-image: url(${GroovePaper});
-  width: 100%;
+  // background: #efebe9;
+  // background-image: url(${GroovePaper});
+  // width: 100%;
 `;
 
 const IndexPage = () => {

@@ -2,13 +2,14 @@ import React from "react";
 import ImageGallery from "react-image-gallery";
 import { Divider } from "antd";
 import styled from "styled-components";
+import "react-image-gallery/styles/css/image-gallery.css";
 
-import GalleryPhoto1 from "../public/assets/Gallery_Photo_1.webp";
-import GalleryPhoto2 from "../public/assets/Gallery_Photo_2.webp";
-import GalleryPhoto3 from "../public/assets/Gallery_Photo_3.webp";
-import GalleryPhoto4 from "../public/assets/Gallery_Photo_4.webp";
-import GalleryPhoto5 from "../public/assets/Gallery_Photo_5.webp";
-import GalleryPhoto6 from "../public/assets/Gallery_Photo_6.webp";
+const GalleryPhoto1 = "/assets/wedding/GalleryPhoto1.jpg";
+const GalleryPhoto2 = "/assets/wedding/GalleryPhoto2.jpg";
+const GalleryPhoto3 = "/assets/wedding/GalleryPhoto3.jpg";
+const GalleryPhoto4 = "/assets/wedding/GalleryPhoto4.jpg";
+const GalleryPhoto5 = "/assets/wedding/GalleryPhoto5.jpg";
+const GalleryPhoto6 = "/assets/wedding/GalleryPhoto6.jpg";
 
 const Wrapper = styled.div`
   padding-top: 42px;
@@ -27,26 +28,32 @@ const Title = styled.p`
 
 const images = [
   {
+    id: 1,
     original: GalleryPhoto1,
     thumbnail: GalleryPhoto1,
   },
   {
+    id: 2,
     original: GalleryPhoto2,
     thumbnail: GalleryPhoto2,
   },
   {
+    id: 3,
     original: GalleryPhoto3,
     thumbnail: GalleryPhoto3,
   },
   {
+    id: 4,
     original: GalleryPhoto4,
     thumbnail: GalleryPhoto4,
   },
   {
+    id: 5,
     original: GalleryPhoto5,
     thumbnail: GalleryPhoto5,
   },
   {
+    id: 6,
     original: GalleryPhoto6,
     thumbnail: GalleryPhoto6,
   },

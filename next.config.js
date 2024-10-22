@@ -1,12 +1,11 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-    reactStrictMode: true, // React의 엄격 모드 활성화
-    swcMinify: true,       // SWC를 사용한 최소화
+    reactStrictMode: true, // React Strict Mode 활성화
+    swcMinify: true,       // SWC 사용한 최소화 활성화
 
-    // 사이트 메타데이터 설정 (일반적으로는 별도의 파일에서 관리)
-    publicRuntimeConfig: {
-        siteTitle: 'weddingNewsletter',
-        siteUrl: 'https://www.yourdomain.tld',
+    // 환경 변수를 .env 파일로 대체하는 것을 권장
+    env: {
+        SITE_TITLE: 'weddingNewsletter',
     },
 
     compiler: {
@@ -15,3 +14,7 @@ const nextConfig = {
 };
 
 module.exports = nextConfig;
+
+const withImages = require('next-images');
+module.exports = withImages();
+

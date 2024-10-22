@@ -1,6 +1,6 @@
-:root {
+/* :root {
   --title-color: #d97d83;
-}
+} */
 * {
   font-family: "Noto Serif KR", serif, -apple-system, BlinkMacSystemFont,
     "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif,
@@ -62,8 +62,8 @@
 /* 폰트 적용 */
 @font-face {
   font-family: "mom_to_daughter";
-  src: url("../public/assets/fonts/mom_to_daughter.woff2") format("woff2"),
-    url("../public/assets/fonts/mom_to_daughter.woff") format("woff");
+  src: url("/assets/fonts/mom_to_daughter.woff2") format("woff2"),
+    url("/assets/fonts/mom_to_daughter.woff") format("woff");
   font-weight: normal;
   font-style: normal;
   font-display: swap;
