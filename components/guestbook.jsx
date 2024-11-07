@@ -2,8 +2,7 @@ import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import axios from "axios";
 
-// json-server API 엔드포인트 설정
-const API_URL = "http://localhost:3001/guestbookEntries";
+const API_URL = "/api/guestbook"; // Next.js API 엔드포인트
 
 // Styled Components 정의
 const GuestbookWrapper = styled.div`
@@ -210,66 +209,51 @@ const CloseButton = styled.button`
 const Guestbook = () => {
   const [name, setName] = useState("");
   const [message, setMessage] = useState("");
-  const [password, setPassword] = useState(""); // 비밀번호 상태 추가
+  const [password, setPassword] = useState("");
   const [guestbookEntries, setGuestbookEntries] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const [isPopupOpen, setIsPopupOpen] = useState(false); // 팝업 상태
+  const [isPopupOpen, setIsPopupOpen] = useState(false);
   const entriesPerPage = 3;
 
-  // 데이터 가져오기 (GET)
   useEffect(() => {
     const fetchEntries = async () => {
       try {
         const response = await axios.get(API_URL);
         setGuestbookEntries(response.data);
       } catch (error) {
-        console.error("데이터를 가져오는 데 실패했습니다.", error);
+        console.error("Failed to fetch data", error);
       }
     };
     fetchEntries();
   }, []);
 
-  // 방명록 제출 함수 (POST)
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (name.trim() === "" || message.trim() === "" || password.trim() === "") {
-      alert("이름, 메시지 및 비밀번호를 입력해 주세요.");
+      alert("Please fill in all fields.");
       return;
     }
 
-    const newEntry = {
-      name,
-      message,
-      password,
-      date: new Date().toLocaleString(),
-    };
+    const newEntry = { name, message, password };
 
     try {
-      const response = await axios.post(API_URL, newEntry);
-      setGuestbookEntries([...guestbookEntries, response.data]); // 새 메시지를 리스트에 추가
-      setName(""); // 입력값 초기화
+      await axios.post(API_URL, newEntry);
+      setGuestbookEntries([{ name, message, date: new Date().toLocaleString() }, ...guestbookEntries]);
+      setName("");
       setMessage("");
-      setPassword(""); // 비밀번호 초기화
-      setIsPopupOpen(false); // 팝업 닫기
+      setPassword("");
+      setIsPopupOpen(false);
     } catch (error) {
-      console.error("데이터를 추가하는 데 실패했습니다.", error);
+      console.error("Failed to add data", error);
     }
   };
 
-  // 현재 페이지에 해당하는 메시지 목록
   const indexOfLastEntry = currentPage * entriesPerPage;
   const indexOfFirstEntry = indexOfLastEntry - entriesPerPage;
-  const currentEntries = guestbookEntries.slice(
-    indexOfFirstEntry,
-    indexOfLastEntry
-  );
+  const currentEntries = guestbookEntries.slice(indexOfFirstEntry, indexOfLastEntry);
 
-  // 페이지 변경 함수
   const handlePageChange = (direction) => {
-    if (
-      direction === "next" &&
-      currentPage < Math.ceil(guestbookEntries.length / entriesPerPage)
-    ) {
+    if (direction === "next" && currentPage < Math.ceil(guestbookEntries.length / entriesPerPage)) {
       setCurrentPage(currentPage + 1);
     } else if (direction === "prev" && currentPage > 1) {
       setCurrentPage(currentPage - 1);
@@ -296,17 +280,13 @@ const Guestbook = () => {
       <Button onClick={() => setIsPopupOpen(true)}>작성하기</Button>
 
       <Pagination>
-        <PageButton
-          onClick={() => handlePageChange("prev")}
-          disabled={currentPage === 1}>
+        <PageButton onClick={() => handlePageChange("prev")} disabled={currentPage === 1}>
           이전
         </PageButton>
         <span>{currentPage}</span>
         <PageButton
           onClick={() => handlePageChange("next")}
-          disabled={
-            currentPage >= Math.ceil(guestbookEntries.length / entriesPerPage)
-          }>
+          disabled={currentPage >= Math.ceil(guestbookEntries.length / entriesPerPage)}>
           다음
         </PageButton>
       </Pagination>
@@ -344,9 +324,7 @@ const Guestbook = () => {
               </div>
               <Button type="submit">남기기</Button>
             </Form>
-            <CloseButton onClick={() => setIsPopupOpen(false)}>
-              닫기
-            </CloseButton>
+            <CloseButton onClick={() => setIsPopupOpen(false)}>닫기</CloseButton>
           </Popup>
         </PopupOverlay>
       )}
