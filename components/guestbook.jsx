@@ -17,7 +17,7 @@ const GuestbookWrapper = styled.div`
   @media (max-width: 768px) {
     padding: 20px;
     margin: 20px auto;
-    width: 70%;
+    width: 90%;
   }
 `;
 
@@ -36,6 +36,7 @@ const Form = styled.form`
   display: flex;
   flex-direction: column;
   gap: 15px;
+  width: 100%;
 `;
 
 const Label = styled.label`
@@ -55,6 +56,7 @@ const Input = styled.input`
   font-size: 1rem;
   background-color: #fff;
   width: 100%;
+  box-sizing: border-box;
 
   &:focus {
     border-color: #f5a623;
@@ -75,6 +77,7 @@ const Textarea = styled.textarea`
   background-color: #fff;
   width: 100%;
   min-height: 100px;
+  box-sizing: border-box;
 
   &:focus {
     border-color: #f5a623;
@@ -96,6 +99,8 @@ const Button = styled.button`
   font-size: 1rem;
   cursor: pointer;
   transition: background-color 0.3s ease;
+  width: 100%;
+  box-sizing: border-box;
 
   &:hover {
     background-color: #6f4c3e;
@@ -132,6 +137,26 @@ const MessageItem = styled.li`
     @media (max-width: 768px) {
       font-size: 12px;
     }
+  }
+
+  .actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 10px;
+  }
+
+  .actions button {
+    background-color: #8d6e63;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 5px;
+    cursor: pointer;
+    font-size: 0.875rem;
+  }
+
+  .actions button:hover {
+    background-color: #6f4c3e;
   }
 `;
 
@@ -213,7 +238,12 @@ const Guestbook = () => {
   const [guestbookEntries, setGuestbookEntries] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [isPopupOpen, setIsPopupOpen] = useState(false);
+  const [editingEntry, setEditingEntry] = useState(null);
   const entriesPerPage = 3;
+
+  const handlePopupClose = () => {
+    setIsPopupOpen(false);
+  };
 
   useEffect(() => {
     const fetchEntries = async () => {
@@ -229,31 +259,90 @@ const Guestbook = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
     if (name.trim() === "" || message.trim() === "" || password.trim() === "") {
-      alert("Please fill in all fields.");
+      alert("입력 값을 입력 해주세요.");
       return;
     }
 
     const newEntry = { name, message, password };
 
     try {
-      await axios.post(API_URL, newEntry);
-      setGuestbookEntries([{ name, message, date: new Date().toLocaleString() }, ...guestbookEntries]);
+      if (editingEntry) {
+        const editEntry = {
+          newName: name,
+          newMessage: message,
+          newPassword: password,
+        };
+
+        // 수정 요청: 기존 entry.id가 있는 경우에만 수정
+        if (!editingEntry.id) {
+          alert("수정할 항목을 찾을 수 없습니다.");
+          return;
+        }
+
+        await axios.put(`${API_URL}?id=${editingEntry.id}`, editEntry);
+
+        setGuestbookEntries(
+          guestbookEntries.map((entry) =>
+            entry.id === editingEntry.id ? { ...entry, ...newEntry } : entry
+          )
+        );
+        setEditingEntry(null);
+      } else {
+        // 새로운 항목 추가
+        await axios.post(API_URL, newEntry);
+        setGuestbookEntries([{ name, message }, ...guestbookEntries]);
+      }
+
       setName("");
       setMessage("");
       setPassword("");
       setIsPopupOpen(false);
     } catch (error) {
-      console.error("Failed to add data", error);
+      if (error.response && error.response.status === 403) {
+        alert("비밀번호가 틀렸습니다.");
+      } else {
+        alert("알 수 없는 오류가 발생했습니다.");
+      }
+
+      console.error("Failed to add/update data", error);
+    }
+  };
+
+  const handleEdit = (entry) => {
+    setEditingEntry(entry);
+    setName(entry.name);
+    setMessage(entry.message);
+    setPassword("");
+    setIsPopupOpen(true);
+  };
+
+  const handleDelete = async (id) => {
+    const deletePassword = prompt("삭제하려면 비밀번호를 입력하세요:");
+    if (!deletePassword) return;
+
+    try {
+      await axios.delete(`${API_URL}?id=${id}`, { data: { deletePassword } });
+      setGuestbookEntries(guestbookEntries.filter((entry) => entry.id !== id));
+    } catch (error) {
+      alert("비밀번호가 틀렸습니다.");
+      console.log("handleDelete error : " + error);
     }
   };
 
   const indexOfLastEntry = currentPage * entriesPerPage;
   const indexOfFirstEntry = indexOfLastEntry - entriesPerPage;
-  const currentEntries = guestbookEntries.slice(indexOfFirstEntry, indexOfLastEntry);
+  const currentEntries = guestbookEntries.slice(
+    indexOfFirstEntry,
+    indexOfLastEntry
+  );
 
   const handlePageChange = (direction) => {
-    if (direction === "next" && currentPage < Math.ceil(guestbookEntries.length / entriesPerPage)) {
+    if (
+      direction === "next" &&
+      currentPage < Math.ceil(guestbookEntries.length / entriesPerPage)
+    ) {
       setCurrentPage(currentPage + 1);
     } else if (direction === "prev" && currentPage > 1) {
       setCurrentPage(currentPage - 1);
@@ -264,70 +353,74 @@ const Guestbook = () => {
     <GuestbookWrapper>
       <Title>방명록</Title>
 
-      {currentEntries.length === 0 ? (
-        <NoMessage>아직 남겨진 메시지가 없습니다.</NoMessage>
-      ) : (
-        <MessageList>
-          {currentEntries.map((entry, index) => (
-            <MessageItem key={index}>
-              <strong>{entry.name}</strong>: {entry.message}
-              <span>{entry.date}</span>
-            </MessageItem>
-          ))}
-        </MessageList>
+      {isPopupOpen && (
+        <PopupOverlay onClick={handlePopupClose}>
+          <Popup onClick={(e) => e.stopPropagation()}>
+            <Form onSubmit={handleSubmit}>
+              <Label>이름</Label>
+              <Input
+                type="text"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                placeholder="이름을 입력하세요"
+              />
+              <Label>메시지</Label>
+              <Textarea
+                value={message}
+                onChange={(e) => setMessage(e.target.value)}
+                placeholder="메시지를 입력하세요"
+              />
+              <Label>비밀번호</Label>
+              <Input
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                placeholder="비밀번호를 입력하세요"
+              />
+              <Button type="submit">{editingEntry ? "수정" : "작성"}</Button>
+            </Form>
+            {/* <CloseButton onClick={() => setIsPopupOpen(false)}>
+              닫기
+            </CloseButton> */}
+          </Popup>
+        </PopupOverlay>
       )}
+
+      <MessageList>
+        {currentEntries.length > 0 ? (
+          currentEntries.map((entry) => (
+            <MessageItem key={entry.id || entry.date || entry.message}>
+              {/* id가 없을 경우 다른 고유값 사용 */}
+              <strong>{entry.name}</strong>
+              <span>{entry.date}</span>
+              <p>{entry.message}</p>
+              <div className="actions">
+                <button onClick={() => handleEdit(entry)}>수정</button>
+                <button onClick={() => handleDelete(entry.id)}>삭제</button>
+              </div>
+            </MessageItem>
+          ))
+        ) : (
+          <NoMessage>작성된 방명록이 없습니다.</NoMessage>
+        )}
+      </MessageList>
 
       <Button onClick={() => setIsPopupOpen(true)}>작성하기</Button>
 
       <Pagination>
-        <PageButton onClick={() => handlePageChange("prev")} disabled={currentPage === 1}>
+        <PageButton
+          onClick={() => handlePageChange("prev")}
+          disabled={currentPage === 1}>
           이전
         </PageButton>
-        <span>{currentPage}</span>
         <PageButton
           onClick={() => handlePageChange("next")}
-          disabled={currentPage >= Math.ceil(guestbookEntries.length / entriesPerPage)}>
+          disabled={
+            currentPage >= Math.ceil(guestbookEntries.length / entriesPerPage)
+          }>
           다음
         </PageButton>
       </Pagination>
-
-      {isPopupOpen && (
-        <PopupOverlay>
-          <Popup>
-            <h3>방명록 작성하기</h3>
-            <Form onSubmit={handleSubmit}>
-              <div>
-                <Label>이름</Label>
-                <Input
-                  type="text"
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
-                  placeholder="이름을 입력하세요"
-                />
-              </div>
-              <div>
-                <Label>메시지</Label>
-                <Textarea
-                  value={message}
-                  onChange={(e) => setMessage(e.target.value)}
-                  placeholder="메시지를 남겨 주세요"
-                />
-              </div>
-              <div>
-                <Label>비밀번호</Label>
-                <Input
-                  type="password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  placeholder="비밀번호를 입력하세요"
-                />
-              </div>
-              <Button type="submit">남기기</Button>
-            </Form>
-            <CloseButton onClick={() => setIsPopupOpen(false)}>닫기</CloseButton>
-          </Popup>
-        </PopupOverlay>
-      )}
     </GuestbookWrapper>
   );
 };
