@@ -1,5 +1,5 @@
 export const WEDDING_INVITATION_URL = "https://wedding-newsletter.vercel.app";
-export const KAKAOTALK_API_TOKEN = process.env.KAKAOTALK_API_TOKEN;;
+export const KAKAOTALK_API_TOKEN = process.env.NEXT_PUBLIC_KAKAO_API_KEY;
 export const KAKAOTALK_SHARE_IMAGE =
   "https://cdn.pixabay.com/photo/2014/11/13/17/04/heart-529607_960_720.jpg";
 
