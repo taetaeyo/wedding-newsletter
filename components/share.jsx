@@ -67,11 +67,6 @@ const LinkShareButton = styled(RoundedButton)`
   }
 `;
 
-/**
- * Share component for sharing wedding invitation
- * @author taekwon
- * @returns {JSX.Element}
- */
 const Share = () => {
   const createKakaoButton = () => {
     if (!window.Kakao) {
@@ -118,6 +113,16 @@ const Share = () => {
     }, 100);
   };
 
+  const handleLinkCopy = () => {
+    message.success({
+      content: "링크가 복사되었습니다.",
+      duration: 2, // 메시지가 2초 후 사라지도록 설정
+      style: {
+        marginTop: "20vh", // 화면 중앙에 표시
+      },
+    });
+  };
+
   return (
     <Wrapper>
       <Divider
@@ -137,7 +142,7 @@ const Share = () => {
         <LinkShareButton
           icon={<LinkOutlined style={{ fontSize: "1.5rem" }} />}
           size="large"
-          onClick={() => message.success("링크가 복사되었습니다.")}>
+          onClick={handleLinkCopy}>
           링크 복사하기
         </LinkShareButton>
       </CopyToClipboard>
