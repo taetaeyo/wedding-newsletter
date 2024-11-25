@@ -257,32 +257,41 @@ const Guestbook = () => {
     fetchEntries();
   }, []);
 
+  const sanitizeInput = (value, maxLength) => {
+    const sanitized = value
+      .replace(/[<>/'";]/g, "") // SQL 및 XSS 방지용 특수문자 제거
+      .slice(0, maxLength); // 최대 길이 제한
+    return sanitized;
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    if (name.trim() === "" || message.trim() === "" || password.trim() === "") {
-      alert("입력 값을 입력 해주세요.");
+  
+    const sanitizedName = sanitizeInput(name.trim(), 50);
+    const sanitizedMessage = sanitizeInput(message.trim(), 300);
+    const sanitizedPassword = sanitizeInput(password.trim(), 20);
+  
+    if (!sanitizedName || !sanitizedMessage || !sanitizedPassword) {
+      alert("입력 값을 올바르게 입력해주세요.");
       return;
     }
-
-    const newEntry = { name, message, password };
-
+  
+    const newEntry = { name: sanitizedName, message: sanitizedMessage, password: sanitizedPassword };
+  
     try {
       if (editingEntry) {
         const editEntry = {
-          newName: name,
-          newMessage: message,
-          newPassword: password,
+          newName: sanitizedName,
+          newMessage: sanitizedMessage,
+          newPassword: sanitizedPassword,
         };
-
-        // 수정 요청: 기존 entry.id가 있는 경우에만 수정
+  
         if (!editingEntry.id) {
           alert("수정할 항목을 찾을 수 없습니다.");
           return;
         }
-
+  
         await axios.put(`${API_URL}?id=${editingEntry.id}`, editEntry);
-
         setGuestbookEntries(
           guestbookEntries.map((entry) =>
             entry.id === editingEntry.id ? { ...entry, ...newEntry } : entry
@@ -290,11 +299,10 @@ const Guestbook = () => {
         );
         setEditingEntry(null);
       } else {
-        // 새로운 항목 추가
         await axios.post(API_URL, newEntry);
-        setGuestbookEntries([{ name, message }, ...guestbookEntries]);
+        setGuestbookEntries([{ name: sanitizedName, message: sanitizedMessage }, ...guestbookEntries]);
       }
-
+  
       setName("");
       setMessage("");
       setPassword("");
@@ -305,7 +313,6 @@ const Guestbook = () => {
       } else {
         alert("알 수 없는 오류가 발생했습니다.");
       }
-
       console.error("Failed to add/update data", error);
     }
   };
@@ -361,20 +368,20 @@ const Guestbook = () => {
               <Input
                 type="text"
                 value={name}
-                onChange={(e) => setName(e.target.value)}
+                onChange={(e) => setName(sanitizeInput(e.target.value, 50))}
                 placeholder="이름을 입력하세요"
               />
               <Label>메시지</Label>
               <Textarea
                 value={message}
-                onChange={(e) => setMessage(e.target.value)}
+                onChange={(e) => setMessage(sanitizeInput(e.target.value, 300))}
                 placeholder="메시지를 입력하세요"
               />
               <Label>비밀번호</Label>
               <Input
                 type="password"
                 value={password}
-                onChange={(e) => setPassword(e.target.value)}
+                onChange={(e) => setPassword(sanitizeInput(e.target.value, 20))}
                 placeholder="비밀번호를 입력하세요"
               />
               <Button type="submit">{editingEntry ? "수정" : "작성"}</Button>
