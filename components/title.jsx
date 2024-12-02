@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import { WEDDING_DATE, GROOM_NAME, BRIDE_NAME } from "../config.js";
 
-const MainImage = "/assets/wedding/yellowFlower.jpg";
+const MainImage = "/assets/wedding/DSC00234-.jpg";
 
 const Layout = styled.div`
   width: 70%;
