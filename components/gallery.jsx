@@ -45,6 +45,7 @@ const images = Array.from({ length: 18 }, (_, index) => {
   return {
     id,
     original: eval(`GalleryPhoto${id}`),
+    thumbnail: eval(`GalleryPhoto${id}`),
   };
 });
 
