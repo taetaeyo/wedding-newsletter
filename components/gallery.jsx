@@ -43,7 +43,6 @@ const Title = styled.p`
   text-align: center;
 `;
 
-// renderItem 함수 정의
 const renderImageItem = (item, index) => (
   <div style={{ position: "relative", width: "100%", height: "500px" }}>
     <Image
@@ -54,12 +53,13 @@ const renderImageItem = (item, index) => (
       placeholder="blur" // Blur Placeholder 사용
       blurDataURL={item.original} // WebP 이미지를 Blur 처리
       priority={index === 0} // 첫 번째 이미지는 미리 로드
+      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw" // 화면 크기에 따라 이미지 크기 조정
+      quality={80} // Next.js 내부적으로 품질을 조정
     />
   </div>
 );
 
 const Gallery = () => {
-  // ImageGallery용 데이터 생성
   const images = photos.map((photo, index) => ({
     original: photo,
     thumbnail: photo,
