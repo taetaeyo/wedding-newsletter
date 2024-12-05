@@ -1,7 +1,7 @@
 export const WEDDING_INVITATION_URL = "https://wedding-newsletter.vercel.app";
 export const KAKAOTALK_API_TOKEN = process.env.NEXT_PUBLIC_KAKAO_API_KEY;
 export const KAKAOTALK_SHARE_IMAGE =
-  "/assets/wedding/DSC00861-.jpg";
+  "https://wedding-newsletter.vercel.app/assets/wedding/DSC00234-.webp";
 
 export const WEDDING_DATE = "2025년 02월 01일";
 
