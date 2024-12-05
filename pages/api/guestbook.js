@@ -8,7 +8,16 @@ export default async function handler(req, res) {
     try {
         switch (method) {
             case 'GET': // 조회
-                const entries = await sql`SELECT * FROM guestbook ORDER BY "date" DESC`;
+                const entries = await sql
+                    `SELECT 
+                        id,
+                        name,
+                        message,
+                        password,
+                        TO_CHAR("date", 'YYYY-MM-DD HH24:MI:SS') AS date
+                    FROM guestbook 
+                    ORDER BY "date" DESC`;
+
                 res.status(200).json(entries.rows);
                 break;
 
