@@ -276,33 +276,54 @@ const Guestbook = () => {
       return;
     }
   
-    const newEntry = { name: sanitizedName, message: sanitizedMessage, password: sanitizedPassword };
+    const newEntry = {
+      name: sanitizedName,
+      message: sanitizedMessage,
+      password: sanitizedPassword,
+    };
   
     try {
       if (editingEntry) {
         const editEntry = {
+          id: editingEntry.id, // ID 추가
           newName: sanitizedName,
           newMessage: sanitizedMessage,
           newPassword: sanitizedPassword,
         };
-  
+
         if (!editingEntry.id) {
           alert("수정할 항목을 찾을 수 없습니다.");
           return;
         }
-  
-        await axios.put(`${API_URL}?id=${editingEntry.id}`, editEntry);
-        setGuestbookEntries(
-          guestbookEntries.map((entry) =>
-            entry.id === editingEntry.id ? { ...entry, ...newEntry } : entry
-          )
-        );
-        setEditingEntry(null);
+
+        try {
+          const response = await axios.put(API_URL, editEntry);
+          const updatedEntry = response.data; // 서버에서 반환된 수정된 항목
+
+          // 서버에서 반환한 데이터를 사용해 리스트 갱신
+          setGuestbookEntries(
+            guestbookEntries.map((entry) =>
+              entry.id === editingEntry.id ? updatedEntry : entry
+            )
+          );
+          setEditingEntry(null);
+        } catch (error) {
+          if (error.response && error.response.status === 403) {
+            alert("비밀번호가 틀렸습니다.");
+          } else if (error.response && error.response.status === 404) {
+            alert("수정할 항목을 찾을 수 없습니다.");
+          } else {
+            alert("알 수 없는 오류가 발생했습니다.");
+          }
+          console.error("Failed to update data", error);
+        }
       } else {
-        await axios.post(API_URL, newEntry);
-        setGuestbookEntries([{ name: sanitizedName, message: sanitizedMessage }, ...guestbookEntries]);
+        // 새로운 항목 추가 시 서버에서 응답으로 ID를 받아옴
+        const response = await axios.post(API_URL, newEntry);
+        const savedEntry = response.data; // 서버에서 반환한 새 항목 (ID 포함)
+        setGuestbookEntries([savedEntry, ...guestbookEntries]); // 서버로부터 받은 ID 포함 항목 추가
       }
-  
+
       setName("");
       setMessage("");
       setPassword("");
@@ -330,11 +351,14 @@ const Guestbook = () => {
     if (!deletePassword) return;
 
     try {
-      await axios.delete(`${API_URL}?id=${id}`, { data: { deletePassword } });
+      await axios.delete(`${API_URL}?id=${id}`, {
+        data: { deletePassword },
+      });
+      
       setGuestbookEntries(guestbookEntries.filter((entry) => entry.id !== id));
     } catch (error) {
       alert("비밀번호가 틀렸습니다.");
-      console.log("handleDelete error : " + error);
+      console.log("handleDelete error: ", error);
     }
   };
 
