@@ -13,7 +13,7 @@ import {
 const Flower = "/assets/flower1.png";
 
 const Wrapper = styled.div`
-  padding-top: 42px;
+  // padding-top: 42px;
   margin: 0 auto;
   width: 70%;
 `;
@@ -28,7 +28,7 @@ const Title = styled.p`
 `;
 
 const Content = styled.p`
-  font-size: 0.72rem;
+  font-size: 0.9rem;
   line-height: 1.75;
   opacity: 0.75;
   margin-bottom: 16px;
@@ -37,7 +37,7 @@ const Content = styled.p`
 `;
 
 const GroomBride = styled.p`
-  font-size: 0.875rem;
+  font-size: 0.9rem;
   line-height: 1.75;
   opacity: 0.85;
   margin-bottom: 0px;
@@ -64,16 +64,16 @@ const Greeting = () => {
       </Divider>
       <Image data-aos="fade-up" src={Flower} />
       <Content data-aos="fade-up">
-        저희 두 사람, 서로의 인연을 결혼으로 맺었습니다.
+        저희 두 사람, <br /> 서로의 인연을 결혼으로 맺었습니다.
         <br />
         <br />
-        소중한 분들께 저희의 결혼 소식을 전하며,
-        <br />
+        소중한 분들께 결혼 소식을 전하며,
         <br />
         저희의 앞날을 축복해 주시면
         <br />
-        <br />
         더없는 기쁨으로 간직하겠습니다.
+        <br />
+        <br />
       </Content>
       <GroomBride data-aos="fade-up">
         {GROOM_FATHER_NAME} · {GROOM_MOTHER_NAME}의 아들 {GROOM_NAME}

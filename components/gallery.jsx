@@ -48,13 +48,13 @@ const renderImageItem = (item, index) => (
     <Image
       src={item.original}
       alt={`Gallery Photo ${index + 1}`}
-      layout="fill" // 이미지를 부모 컨테이너에 맞춤
-      objectFit="cover" // 이미지 비율 유지
-      placeholder="blur" // Blur Placeholder 사용
-      blurDataURL={item.original} // WebP 이미지를 Blur 처리
-      priority={index === 0} // 첫 번째 이미지는 미리 로드
-      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw" // 화면 크기에 따라 이미지 크기 조정
-      quality={80} // Next.js 내부적으로 품질을 조정
+      fill
+      style={{ objectFit: "cover" }}
+      placeholder="blur"
+      blurDataURL={item.original}
+      priority={index === 0}
+      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+      quality={80}
     />
   </div>
 );
@@ -72,10 +72,10 @@ const Gallery = () => {
       </Divider>
       <ImageGallery
         items={images}
-        showPlayButton={false} // 재생 버튼 비활성화
-        showFullscreenButton={false} // 전체 화면 버튼 비활성화
+        showPlayButton={false}
+        showFullscreenButton={false}
         lazyLoad
-        renderItem={(item, index) => renderImageItem(item, index)}
+        renderItem={renderImageItem}
       />
     </Wrapper>
   );

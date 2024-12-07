@@ -28,7 +28,7 @@ const TitleImage = styled.div`
   background-repeat: no-repeat;
   background-position: center top;
   width: 100%;
-  height: 70vh;
+  height: 50vh;
   transform: scale(${(props) => props.scale});
   transition: transform 0.3s ease;
 `;
