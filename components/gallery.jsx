@@ -22,9 +22,6 @@ const photos = [
   "/assets/wedding/DSC00848.webp",
   "/assets/wedding/DSC00680.webp",
   "/assets/wedding/DSC00444.webp",
-  "/assets/wedding/DSC00568-.webp",
-  "/assets/wedding/DSC00744.webp",
-  "/assets/wedding/DSC01038.webp",
 ];
 
 // 스타일링
@@ -44,17 +41,24 @@ const Title = styled.p`
 `;
 
 const renderImageItem = (item, index) => (
-  <div style={{ position: "relative", width: "100%", height: "500px" }}>
+  <div
+    style={{
+      position: "relative",
+      width: "100%",
+      height: "500px",
+    }}>
     <Image
       src={item.original}
       alt={`Gallery Photo ${index + 1}`}
-      fill
-      style={{ objectFit: "cover" }}
+      fill // layout="fill" 대신 fill 사용
+      style={{
+        objectFit: "cover", // objectFit은 style로 이동
+      }}
       placeholder="blur"
       blurDataURL={item.original}
       priority={index === 0}
+      quality={75}
       sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-      quality={80}
     />
   </div>
 );
