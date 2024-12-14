@@ -61,7 +61,7 @@ const Title = () => {
           {/* {GROOM_NAME} &#38; {BRIDE_NAME} */}
           {GROOM_NAME} ♥ {BRIDE_NAME}
         </GroomBride>
-        <Schedule>{WEDDING_DATE}</Schedule>
+        <Schedule>{/* WEDDING_DATE */}</Schedule>
       </TitleWrapper>
       <TitleImage image={MainImage} />
     </Layout>
